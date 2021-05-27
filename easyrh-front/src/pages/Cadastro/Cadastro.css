@@ -1,0 +1,44 @@
+.box{
+  width: 450px;
+  height: 600px;
+  padding: 20px;
+  margin: 100px auto;
+  box-shadow: 0px 0px 10px 2px grey;
+  border-radius: 5px;
+}
+
+.form {
+  height: 100%;
+}
+
+.button-primary {
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: normal;
+  width: 100%;
+  padding: 10px;
+
+}
+
+.centro {
+  margin-top: 55px;
+}
+
+.form-label{
+  font-size: 16px;
+  height: 12px;
+}
+
+.form-group{
+  height:90px;
+}
+
+.logo-header{
+  text-align: center;
+  margin-top: 47px;
+}
+
+.m-lateral {
+  margin: 25px;
+  margin-top: 60px;
+}
