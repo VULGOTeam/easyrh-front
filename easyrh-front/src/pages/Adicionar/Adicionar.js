@@ -1,35 +1,40 @@
 import {Form, Button, Container, Row, Col, Image} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../Adicionar/Adicionar.css'
 
 const Adicionar = () =>{
     return(
         <Container>
             <div class="box">
-                <div class="logo-header">
-                    <h1>EasyRH </h1>
-                </div>
-                <Form className="m-lateral">
-                    <Form.Group className="centro" controlId="formBasicEmail">
-                        <Form.Label>E-MAIL</Form.Label>
-                        <Form.Control type="email" placeholder="" />
-                        
-                        <Form.Text className="text-muted">
-                        Utilize seu e-mail cadastrado para receber o código de acesso
-                        ou digite o seu melhor e-mail para criar uma nova conta
-                        </Form.Text>
-                    </Form.Group>
+                <Form class="pt-2 mx-2">
+
+                    <h1 className="text-center">EasyRH </h1>
+                    <p className="text-center">Adicionar funcionário</p>
+                    
+                    <Form.Label>NOME</Form.Label>
+                    <Form.Control placeholder="" />
+
+                    <Form.Label class="pt-2">SETOR</Form.Label>
+                    <Form.Control placeholder="" />
+
+                    <Form.Label class="pt-2">SALÁRIO</Form.Label>
+                    <Form.Control placeholder="" />
+
                     <Row>
-                        <div class="col-12 mt-5 px-4">
-                            <Button variant="primary" href="/cadastro" type="submit" className="button-primary">
-                                Continuar
-                            </Button>
-                        </div>
+                        <Col>
+                            <Form.Label className="text-center col pt-3">MESES TRAB.</Form.Label>
+                            <Form.Control placeholder="" />
+                        </Col>
+                        <Col>
+                            <Form.Label className="text-center col pt-3">DIAS FÉRIAS</Form.Label>
+                            <Form.Control placeholder="" />
+                        </Col>
                     </Row>
                     <Row>
-                        <Col class="col-2 px-5">
-                            <Form.Text  className="hint-conta text-muted">
-                            Se ainda não possuir uma conta, fique tranquilo que criaremos uma para você
-                            </Form.Text>
+                        <Col class="col-12 pb-5 pt-4">
+                        <Button variant="primary" href="#" type="submit" className="button-primary">
+                            Continuar
+                        </Button>
                         </Col>
                     </Row>
                 </Form>
