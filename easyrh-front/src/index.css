@@ -15,15 +15,3 @@ code {
 .selector-for-some-widget {
   box-sizing: content-box;
 }
-
-.table-bordered thead th{
-  background-color: #0d0d0d;
-  color: whitesmoke;
-}
-.table-bordered tbody td{
-  background: white;
-}
-.table-hover tbody tr:hover{
-  opacity: 0.6;
-  background-color: #0d0d0d;
-}

@@ -1,4 +1,5 @@
 body{
-    background-image: url("../../images/galeria-estrelas28743.jpg");
-    background-size: cover;
+    background: url("../../images/background-blue.jpg");
+    height: 100%;
+    background-size:  cover;
 }
