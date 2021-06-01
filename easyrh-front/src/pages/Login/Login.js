@@ -2,6 +2,14 @@ import logo from '../../logo.svg';
 import {Form, Button, Container, Row, Col, Image} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
 function Login(){
     return (
@@ -22,9 +30,11 @@ function Login(){
                     </Form.Group>
                     <Row>
                         <div class="col-12 mt-5 px-4">
-                            <Button variant="primary" href="/cadastro" type="submit" className="button-primary">
-                                Continuar
-                            </Button>
+                            <Link to={`${match.url}/cadastro`}>
+                                <Button variant="primary" href="/cadastro" type="submit" className="button-primary">
+                                    Continuar
+                                </Button>
+                            </Link>
                         </div>
                     </Row>
                     <Row>
@@ -39,5 +49,11 @@ function Login(){
         </Container>
     );
 }
+
+function valida(){
+    let {email} = useParams();
+    //https://documenter.getpostman.com/view/7522698/TzRRC8Mx
+}
+
 
 export default Login

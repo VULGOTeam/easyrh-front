@@ -11,8 +11,15 @@ import Login from './pages/Login/Login';
 import Cadastro from './pages/Cadastro/Cadastro';
 import OTP from './pages/OTP/OTP';
 import Dashboard from './pages/Dashboard/Dashboard';
+import $ from 'jquery';
+
+//useParams();
 
 function App() {
+      $('#btnAdicionar').on('click', function(event) {
+          //event.preventDefault(); // To prevent following the link (optional)
+              document.getElementById("adicionar").style.display = "block";
+          });
   return (
     <Router>
       <Switch>
@@ -32,5 +39,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

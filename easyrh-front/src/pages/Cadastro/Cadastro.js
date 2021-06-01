@@ -31,4 +31,10 @@ function Cadastro (){
   </div>
   )
 }
+
+
+function Valida(){
+    let {email} = useParams();
+}
+
 export default Cadastro

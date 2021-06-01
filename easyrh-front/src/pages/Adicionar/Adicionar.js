@@ -3,10 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Adicionar/Adicionar.css'
 
 const Adicionar = () =>{
+
+    const onSubmit = () => {
+        //bater na API
+        alert("Funcionário adicionado com sucesso!")
+    }
+
     return(
         <Container>
             <div class="box">
-                <Form class="pt-2 mx-2">
+                <Form class="pt-2 mx-2" onSubmit={onSubmit}>
 
                     <h1 className="text-center">EasyRH </h1>
                     <p className="text-center">Adicionar funcionário</p>
