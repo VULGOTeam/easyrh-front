@@ -1,27 +1,60 @@
-import logo from '../../logo.svg';
-import {Form, Button, Container, Row, Col, Image} from 'react-bootstrap';
+
+import {Form, Button, Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
+import React, { useState} from 'react'
+import  { Redirect } from 'react-router-dom'
+
+
 
 function Login(){
+    const [stateEmail, setEmailInput] = useState('')
+    const [shoulRedirect, setInput] = useState('')
+    
+    const onSubmit = () => {
+
+        const existe = true;
+        const valido = true;
+
+        if(!valido){
+            return false
+        }
+        //this.context.router.push("/cadastro")
+        if(existe){
+            //verifica senha
+           setInput('3');
+           alert(shoulRedirect)
+           /*to={{
+               pathname: '/dashboard',
+               state: { property_id: stateEmail }
+               }}/>;*/
+        }
+        else{
+            setInput('2');
+            alert(shoulRedirect)
+            return <Redirect to={{
+                pathname: '/cadastro',
+                state: { property_id: stateEmail}
+                }}/>;
+            }    
+      };
+
+            
+
     return (
-        <Container>          
-            <div class="box">
-                <div class="logo-header">
+        <Container>  
+            { shoulRedirect === '3' ? <Redirect to={{
+               pathname: '/dashboard',
+               state: { property_id: stateEmail }
+               }}/> : null}
+            <div className="box">
+                <div className="logo-header">
                     <h1>EasyRH </h1>
                 </div>
                 <Form className="m-lateral">
                     <Form.Group className="centro" controlId="formBasicEmail">
                         <Form.Label>E-MAIL</Form.Label>
-                        <Form.Control type="email" placeholder="" />
+                        <Form.Control onChange={setEmailInput} type="email" placeholder="" />
                         
                         <Form.Text className="text-muted">
                         Utilize seu e-mail cadastrado para receber o código de acesso
@@ -29,16 +62,14 @@ function Login(){
                         </Form.Text>
                     </Form.Group>
                     <Row>
-                        <div class="col-12 mt-5 px-4">
-                            <Link to={`${match.url}/cadastro`}>
-                                <Button variant="primary" href="/cadastro" type="submit" className="button-primary">
-                                    Continuar
-                                </Button>
-                            </Link>
+                        <div className="col-12 mt-5 px-4">
+                            <Button variant="primary" onClick={onSubmit} type="submit" className="button-primary">
+                                Continuar
+                            </Button>
                         </div>
                     </Row>
                     <Row>
-                        <Col class="col-2 px-5">
+                        <Col className="col-2 px-5">
                             <Form.Text  className="hint-conta text-muted">
                             Se ainda não possuir uma conta, fique tranquilo que criaremos uma para você
                             </Form.Text>
@@ -50,10 +81,6 @@ function Login(){
     );
 }
 
-function valida(){
-    let {email} = useParams();
-    //https://documenter.getpostman.com/view/7522698/TzRRC8Mx
-}
-
+  
 
 export default Login

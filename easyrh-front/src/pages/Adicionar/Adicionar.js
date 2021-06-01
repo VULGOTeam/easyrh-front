@@ -1,4 +1,4 @@
-import {Form, Button, Container, Row, Col, Image} from 'react-bootstrap';
+import {Form, Button, Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Adicionar/Adicionar.css'
 

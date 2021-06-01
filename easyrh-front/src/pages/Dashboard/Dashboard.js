@@ -1,19 +1,11 @@
 import {Container, Table, Row, Col, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import $ from 'jquery';
 import './Dashboard.css'
 import ModalAdicionar from '../Adicionar/Adicionar';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
-    useParams
-  } from "react-router-dom";
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
 
+//<p>{this.props.location.state.property_id}</p>
 
 function Dashboard(){
     let funcDic = {10: ["Mark", "Financeiro"], 1: ["Gustavo", "Marketing"], 2:["Ted", "Tecnologia"]}
@@ -31,13 +23,14 @@ function Dashboard(){
         alert("Funcionário deletado.")
     }
 
+    
        
     return(
         <Container fluid>
             <Row>
                 <Col class="col-12 mt-4 mb-2 pl-5">
                     <h1>EasyRH</h1>
-                    <p>NOME EMPRESA LOGADA</p>
+                    <p>NOME DA EMPRESA</p>
                     <p>CNPJ - CNPJ AQUI</p>
                     <Button variant="secundary">Sair</Button>
                 </Col>
@@ -87,9 +80,5 @@ function Dashboard(){
     )
 }
 
-
-function Valida(){
-    let {email} = useParams();
-}
 
 export default Dashboard
