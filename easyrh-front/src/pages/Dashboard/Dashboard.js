@@ -1,11 +1,16 @@
 import {Container, Table, Row, Col, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-import './Dashboard.css'
+import './Dashboard.css';
+import React,{ useState, useEffect} from 'react';
 import ModalAdicionar from '../Adicionar/Adicionar';
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
 
 //<p>{this.props.location.state.property_id}</p>
+
+//useEffect(() => {
+ //   alert(this.props.location.state.property_id)
+    
+ //   });
 
 function Dashboard(){
     let funcDic = {10: ["Mark", "Financeiro"], 1: ["Gustavo", "Marketing"], 2:["Ted", "Tecnologia"]}

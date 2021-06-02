@@ -5,46 +5,37 @@ import './Login.css';
 import React, { useState} from 'react'
 import  { Redirect } from 'react-router-dom'
 
-
+function Valida(stateEmail){
+    const existe = true;
+    const valido = true;
+    alert(stateEmail)  
+    if(!valido){
+        return '0';
+    }
+    
+    if(!existe){
+      return '3';
+       
+    }
+    else{
+        return '2';
+        }  
+    
+}
 
 function Login(){
     const [stateEmail, setEmailInput] = useState('')
     const [shoulRedirect, setInput] = useState('')
-    
-    const onSubmit = () => {
-
-        const existe = true;
-        const valido = true;
-
-        if(!valido){
-            return false
-        }
-        //this.context.router.push("/cadastro")
-        if(existe){
-            //verifica senha
-           setInput('3');
-           alert(shoulRedirect)
-           /*to={{
-               pathname: '/dashboard',
-               state: { property_id: stateEmail }
-               }}/>;*/
-        }
-        else{
-            setInput('2');
-            alert(shoulRedirect)
-            return <Redirect to={{
-                pathname: '/cadastro',
-                state: { property_id: stateEmail}
-                }}/>;
-            }    
-      };
-
-            
 
     return (
         <Container>  
             { shoulRedirect === '3' ? <Redirect to={{
                pathname: '/dashboard',
+               state: { property_id: stateEmail }
+               }}/> : null}
+
+            { shoulRedirect === '2' ? <Redirect to={{
+               pathname: '/cadastro',
                state: { property_id: stateEmail }
                }}/> : null}
             <div className="box">
@@ -54,7 +45,7 @@ function Login(){
                 <Form className="m-lateral">
                     <Form.Group className="centro" controlId="formBasicEmail">
                         <Form.Label>E-MAIL</Form.Label>
-                        <Form.Control onChange={setEmailInput} type="email" placeholder="" />
+                        <Form.Control onChange={e => setEmailInput(e.target.value)} type="email" placeholder="" />
                         
                         <Form.Text className="text-muted">
                         Utilize seu e-mail cadastrado para receber o código de acesso
@@ -63,13 +54,13 @@ function Login(){
                     </Form.Group>
                     <Row>
                         <div className="col-12 mt-5 px-4">
-                            <Button variant="primary" onClick={onSubmit} type="submit" className="button-primary">
+                            <Button variant="primary" onClick={() =>setInput(Valida(stateEmail))} type="submit" className="button-primary">
                                 Continuar
                             </Button>
                         </div>
                     </Row>
                     <Row>
-                        <Col className="col-2 px-5">
+                        <Col>
                             <Form.Text  className="hint-conta text-muted">
                             Se ainda não possuir uma conta, fique tranquilo que criaremos uma para você
                             </Form.Text>
