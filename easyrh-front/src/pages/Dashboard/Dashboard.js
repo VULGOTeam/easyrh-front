@@ -1,41 +1,36 @@
 import {Container, Table, Row, Col, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css';
-import React,{ useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import ModalAdicionar from '../Adicionar/Adicionar';
+import  { withRouter } from 'react-router-dom'
+import  { useLocation } from 'react-router-dom'
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
 
-//<p>{this.props.location.state.property_id}</p>
+function Dashboard(props){
+    const funcDic = {10: ["Mark", "Financeiro"], 1: ["Gustavo", "Marketing"], 2:["Ted", "Tecnologia"]}
+  
+    const [showResults, setShowResults] = useState(false)
+    const onClick = () => setShowResults(!showResults)
 
-//useEffect(() => {
- //   alert(this.props.location.state.property_id)
-    
- //   });
+    useEffect(() => {
+    console.log(props)
+    },[]);
 
-function Dashboard(){
-    let funcDic = {10: ["Mark", "Financeiro"], 1: ["Gustavo", "Marketing"], 2:["Ted", "Tecnologia"]}
-    /*
-            $('.btnExcluir').on('click', function(event) {
-            //event.preventDefault(); // To prevent following the link (optional)
-            alert("oi")
-        });*/
-    const [showResults, setShowResults] = React.useState(false)
-    const onClick = () => setShowResults(!showResults)    
-    
-    const deleteFunc = () => {
+    const deleteFunc = (i) => {
         //bater na API
         //funcDic.delete()
-        alert("Funcionário deletado.")
+        //alert("Funcionário deletado.")
+      
     }
-
-    
        
     return(
-        <Container fluid>
+        <Container fluid >
             <Row>
                 <Col class="col-12 mt-4 mb-2 pl-5">
                     <h1>EasyRH</h1>
-                    <p>NOME DA EMPRESA</p>
+                    <p>{props.location.state.name}</p>
                     <p>CNPJ - CNPJ AQUI</p>
                     <Button variant="secundary">Sair</Button>
                 </Col>
@@ -68,7 +63,7 @@ function Dashboard(){
                                     <td colSpan="2">{(funcDic[Object.keys(funcDic)[index]])[0]}</td>
                                     <td colSpan="3">{(funcDic[Object.keys(funcDic)[index]])[1]}</td>
                                     <td className="text-center" colSpan="4">
-                                        <Button class="btnExcluir" variant="secundary" onClick={deleteFunc} >
+                                        <Button class="btnExcluir" variant="secundary" onClick={e => deleteFunc(index)} >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
@@ -86,4 +81,4 @@ function Dashboard(){
 }
 
 
-export default Dashboard
+export default withRouter(Dashboard)
