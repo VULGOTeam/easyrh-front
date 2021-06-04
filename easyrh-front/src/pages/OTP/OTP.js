@@ -26,11 +26,12 @@ const OTP = (props) => {
     e.preventDefault()
     try {
         const { data: user } = await authenticationService.verifyOtp(props.location.state.email, otp)
+        console.log(user)
         localStorage.setItem("@TOKEN", user?.token)
         localStorage.setItem("@USER", JSON.stringify(user?.user))
         props.history.push({
             pathname: '/dashboard',
-            state: {user}
+            state: {email: user.email, name: user.name, cnpj: user.cnpj }
         })
 
     } catch(error) {

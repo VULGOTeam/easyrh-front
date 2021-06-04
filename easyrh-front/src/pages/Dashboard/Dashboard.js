@@ -4,13 +4,13 @@ import './Dashboard.css';
 import { useState, useEffect} from 'react';
 import ModalAdicionar from '../Adicionar/Adicionar';
 import  { withRouter } from 'react-router-dom'
-import  { useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
 
-function Dashboard(props){
+const Dashboard = props => {
     const funcDic = {10: ["Mark", "Financeiro"], 1: ["Gustavo", "Marketing"], 2:["Ted", "Tecnologia"]}
-  
+
     const [showResults, setShowResults] = useState(false)
     const onClick = () => setShowResults(!showResults)
 
@@ -18,11 +18,25 @@ function Dashboard(props){
     console.log(props)
     },[]);
 
+    const sair = async e => {
+        e.preventDefault()
+        props.history.push({
+          pathname: '/',
+      })
+    }
+
     const deleteFunc = (i) => {
         //bater na API
         //funcDic.delete()
         //alert("Funcionário deletado.")
-      
+        toast("Funcionário deletado", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     }
        
     return(
@@ -31,11 +45,11 @@ function Dashboard(props){
                 <Col class="col-12 mt-4 mb-2 pl-5">
                     <h1>EasyRH</h1>
                     <p>{props.location.state.name}</p>
-                    <p>CNPJ - CNPJ AQUI</p>
-                    <Button variant="secundary">Sair</Button>
+                    <p>CNPJ: {props.location.state.cnpj}</p>
+                    <Button onClick={(e) => sair(e)} variant="secundary">Sair</Button>
                 </Col>
             </Row>
-            { showResults ? <ModalAdicionar id="adicionar"/> : null}
+            { showResults ? <ModalAdicionar /> : null}
             <Container fluid="md">
                 <Row>
                     <Col>

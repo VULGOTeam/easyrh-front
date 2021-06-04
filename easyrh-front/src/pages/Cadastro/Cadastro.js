@@ -4,7 +4,7 @@ import AuthenticationService from '../../services/AuthenticationService'
 import "./Cadastro.css";
 import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const Cadastro = (props) => {
   useEffect(() => {
