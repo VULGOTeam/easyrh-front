@@ -2,10 +2,10 @@ import { Form, Button, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./OTP.js";
 import AuthenticationService from '../../services/AuthenticationService'
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {  withRouter } from "react-router-dom";
 import { toast } from 'react-toastify';
-
+ 
 const OTP = (props) => {
   const authenticationService = new AuthenticationService()
 
@@ -24,15 +24,18 @@ const OTP = (props) => {
 
   const  valida = async (e) => {
     e.preventDefault()
+
     try {
-        const { data: user } = await authenticationService.verifyOtp(props.location.state.email, otp)
-        console.log(user)
-        localStorage.setItem("@TOKEN", user?.token)
-        localStorage.setItem("@USER", JSON.stringify(user?.user))
+        const { data: response } = await authenticationService.verifyOtp(props.location.state.email, otp)
+        console.log(response)
+
+        localStorage.setItem("@TOKEN", response?.token)
+        localStorage.setItem("@USER", JSON.stringify(response?.user))
+
         props.history.push({
-            pathname: '/dashboard',
-            state: {email: user.email, name: user.name, cnpj: user.cnpj }
-        })
+            pathname: "/dashboard",
+            state: {email: response?.user.email, name: response?.user.name, cnpj: response?.user.cnpj },
+        });
 
     } catch(error) {
         toast(error.response.data.message, {

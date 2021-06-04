@@ -11,7 +11,8 @@ import Login from './pages/Login/Login';
 import Cadastro from './pages/Cadastro/Cadastro';
 import OTP from './pages/OTP/OTP';
 import Dashboard from './pages/Dashboard/Dashboard';
-
+import Sair from './pages/Sair/Sair';
+import PrivateRoute from './components/PrivateRoute'
 //useParams();
 
 function App() {
@@ -27,9 +28,10 @@ function App() {
         <Route path="/OTP">      
           <OTP />
         </Route>
-        <Route path="/dashboard">      
-          <Dashboard />
+        <Route path="/sair">      
+          <Sair />
         </Route>
+        <PrivateRoute path='/dashboard' component={Dashboard} />
       </Switch>
     </Router>
   );

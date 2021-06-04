@@ -14,9 +14,11 @@ class AuthenticationService {
     return api.post('/users', {email, name, cnpj})
   }
 
-  calcularSalario(gross, months, adds, vacation_days){
-    return api.get('/salary/calculate', { params: { gross, months, adds, vacation_days }})
+  calculateSalary(gross, months, adds, vacation_days){
+    return api.get('/salary/calculate', { params: {gross, months, adds, vacation_days} })
   }
+
+
 }
 
 export default AuthenticationService;
