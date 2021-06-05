@@ -31,17 +31,29 @@ const Exibir = props => {
     const calcular = async e => {
         e.preventDefault()      
 
-        const params = {
-            gross: gross, months: months, adds: adds, vacation_days: vacation_days
-        }
+        
          
         try{   
+            console.log(props)
+            const {data: user} = await employeesService.getEmployee(props.location.state.id)
+
+            console.log(user)
+
+            const params = {
+                gross: user.gross, months: user.hired_at, adds: adds, vacation_days: vacation_days
+            }
+
             const {data: results} = await employeesService.calculateSalary( params )
             console.log(results)
-
-            setGross(results.total.gross)
-            setMonths(results.total.months)
-            setLiquid(results.total.liquid)
+            
+            setGross(results.salary.gross)
+            setMonths(results.salary.months)
+            setLiquid(results.salary.liquid)
+            setVacationGross(results.vacation.liquid)
+            setDepartment(props.location.state.name)
+            setName()
+            setAdds(results.total.adds)
+            setChristmasBonus(results.thirteenth.liquid)
 
             
         }catch (error) {
@@ -65,50 +77,82 @@ const Exibir = props => {
             <Modal.Dialog>
                 <Modal.Body>
                     <Form class="pt-2 mx-2">
-                        <Row>
-                            <Form.Label class="pt-2" >SETOR</Form.Label>
-                            <Form.Control placeholder={department} readOnly/>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2">NOME</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder={name} readOnly/>
+                            </Col>
                         </Row>
-                        
-                        <Row>
-                            <Form.Label class="pt-2">SALÁRIO BRUTO</Form.Label>
-                            <Form.Control  placeholder={gross} readOnly/>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2">SETOR</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder={department} readOnly/>
+                            </Col>
                         </Row>
-                        
-                        <Row>
-                            <Form.Label class="pt-2"  readOnly>SALÁRIO LÍQUIDO</Form.Label>
-                            <Form.Control  placeholder={liquid}  readOnly/>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2">SALÁRIO BRUTO</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder={gross} readOnly/>
+                            </Col>
                         </Row>
-                    
-                        <Row>
-                            <Form.Label class="pt-2"  readOnly>DEDUÇÃO INSS</Form.Label>
-                            <Form.Control  placeholder={inss}  readOnly/>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2" readOnly>SALÁRIO LÍQUIDO</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder={liquid}  readOnly/>
+                            </Col>
                         </Row>
-                    
-                        <Row>
-                            <Form.Label class="pt-2"  readOnly>DEDUÇÃO IRRF</Form.Label>
-                            <Form.Control  placeholder={irrf}  readOnly/>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2" readOnly>DEDUÇÃO INSS</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control  placeholder={inss}  readOnly/>
+                            </Col>
                         </Row>
-                                                                    
-                        <Row>
-                            <Form.Label className="col pt-3" >FÉRIAS</Form.Label>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2" readOnly>DEDUÇÃO IRRF</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control  placeholder={irrf}  readOnly/>
+                            </Col>
+                        </Row>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2">FÉRIAS</Form.Label>
+                            </Col>
+                            
+                            <Col>
                                 <Form.Control placeholder={vacation_gross} readOnly/>
-                            <Form.Control placeholder="" />
-                        </Row>                          
-                        
-                        <Row>
-                            <Form.Label className="text-center col pt-3">DÉCIMO TERCEIRO</Form.Label>
-                            <Form.Control  placeholder={christmas_bonus} readOnly/>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder="" />
+                            </Col>
                         </Row>
-
-                        <Row>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2">DÉCIMO TERCEIRO</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control  placeholder={christmas_bonus} readOnly/>
+                            </Col>
+                        </Row>
+                        <Row className="py-2">
                             <Col class="col-12 pb-5 pt-4">
                                 <Button variant="primary" onClick={(e) => calcular(e)} type="submit" className="button-primary">
                                     CALCULAR
                                 </Button>
                             </Col>
                         </Row>
-                                        
+                        <Row></Row>            
                     </Form>
                 </Modal.Body>
             </Modal.Dialog>

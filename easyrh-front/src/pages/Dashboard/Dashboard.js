@@ -50,7 +50,11 @@ const Dashboard = props => {
         getEmployees()
     },[showResults]);
 
-    const exibirEmployee = () => {
+    const exibirEmployee = (e, id) => {
+        props.history.push({
+            
+            state: {id: id}
+        })
         setShowEmployee(!showEmployee)
     }
 
@@ -75,6 +79,7 @@ const Dashboard = props => {
 
         try{
             await employeesService.deleteEmployee(id)
+            getEmployees()
             
         }catch (error) {
             console.log(error)
@@ -123,10 +128,10 @@ const Dashboard = props => {
                             </thead>
                             <tbody>
                                 {employees?.map((employee, i) => (
-                                    <tr key={i} onClick={(e) => exibirEmployee()}>
-                                        <td className="text-center" colSpan="1">{employee.id.slice(employee.id.length-4,employee.id.length)}</td>
-                                        <td className="text-center" colSpan="2">{employee.name}</td>
-                                        <td className="text-center" colSpan="3">{employee?.department || "N/A"}</td>
+                                    <tr key={i}>
+                                        <td className="text-center" colSpan="1"  onClick={(e) => exibirEmployee( e, employee.id)}>{employee.id.slice(employee.id.length-4,employee.id.length)}</td>
+                                        <td className="text-center" colSpan="2"  onClick={(e) => exibirEmployee( e, employee.id)}>{employee.name}</td>
+                                        <td className="text-center" colSpan="3"  onClick={(e) => exibirEmployee( e, employee.id)}>{employee?.department || "N/A"}</td>
                                         <td className="text-center" colSpan="4">
                                             <Button class="btnExcluir" variant="secundary" onClick={e => deleteFunc( e, employee.id )} >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">

@@ -26,7 +26,19 @@ class EmployeesService {
 
   
   calculateSalary(gross, months, adds, vacation_days){
-    return api.get('/salary/calculate', { params: {gross, months, adds, vacation_days} })
+    return api.get('/salary/calculate', 
+      { 
+        params: {
+          gross, 
+          months, 
+          adds, 
+          vacation_days
+        } 
+      }, {
+        headers: {
+        'Authorization': `Bearer ${localStorage.getItem('@TOKEN')}`
+      },
+    })
   }
 
   deleteEmployee(id){
