@@ -10,9 +10,41 @@ class EmployeesService {
     })
   }
 
-  addEmployee( name, gross, hired_at ){
-    return api.get('/employees', { name, gross, hired_at })
+  addEmployee({ name, gross, hired_at, department, vacations }){
+    return api.post('/employees', {
+      name,
+      gross,
+      hired_at,
+      department,
+      vacations
+    }, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('@TOKEN')}`
+      },
+    })
   }
+
+  
+  calculateSalary(gross, months, adds, vacation_days){
+    return api.get('/salary/calculate', { params: {gross, months, adds, vacation_days} })
+  }
+
+  deleteEmployee(id){
+    return api.delete(`/employees/${id}`,{
+     headers: {
+        'Authorization': `Bearer ${localStorage.getItem('@TOKEN')}`
+      },
+    })
+  }
+
+  getEmployee(id){
+    return api.get(`/employees/${id}`,{
+     headers: {
+        'Authorization': `Bearer ${localStorage.getItem('@TOKEN')}`
+      },
+    })
+  }
+  
 
 }
 
