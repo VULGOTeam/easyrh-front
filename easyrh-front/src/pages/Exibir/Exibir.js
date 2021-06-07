@@ -12,33 +12,55 @@ const Exibir = props => {
     const employeesService = new EmployeesService()
 
     const [gross, setGross] = useState(0)
-    const [show, setShow] = useState(0)
+    const [user, setUser] = useState(0)
     const [liquid, setLiquid] = useState(0)
     const [months, setMonths] = useState(0)
     const [vacation_gross, setVacationGross] = useState(0)
     const [christmas_bonus, setChristmasBonus] = useState(0)
-    const [name, setName] = useState("")
+    const [name, setName] = useState("a")
     const [department, setDepartment] = useState("N/A")
     const [adds, setAdds] = useState(0)
-    const [vacation_days, setVacationDays] = useState(0)
+    const [vacation_days, setVacationDays] = useState(15)
     const [irrf, setIrrf] = useState(0)
     const [inss, setInss] = useState(0)
 
+    const loadInfo = async e => {
+        
+        try{   
+            const {data: user} = await employeesService.getEmployee(props.location.state.id)
+            
+            console.log(user)
+
+            setUser(user)
+            setDepartment(user.department)
+            setGross(user.gross)
+            setName(user.name)
+
+            
+        }catch (error) {
+            toast("Erro ao calcular", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        }
+    }
+
+
     useEffect(() => {
         console.log(props)
+    
+        loadInfo()
     },[]);
 
     const calcular = async e => {
-        e.preventDefault()      
-
         
+        e.preventDefault()              
          
         try{   
-            console.log(props)
-            const {data: user} = await employeesService.getEmployee(props.location.state.id)
-
-            console.log(user)
-
             const params = {
                 gross: user.gross, months: user.hired_at, adds: adds, vacation_days: vacation_days
             }
@@ -46,12 +68,10 @@ const Exibir = props => {
             const {data: results} = await employeesService.calculateSalary( params )
             console.log(results)
             
-            setGross(results.salary.gross)
             setMonths(results.salary.months)
             setLiquid(results.salary.liquid)
             setVacationGross(results.vacation.liquid)
             setDepartment(props.location.state.name)
-            setName()
             setAdds(results.total.adds)
             setChristmasBonus(results.thirteenth.liquid)
 
@@ -111,6 +131,14 @@ const Exibir = props => {
                         </Row>
                         <Row className="py-2">
                             <Col>
+                                <Form.Label className="pl-2" readOnly>ADICIONAIS/DESCONTOS</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control onChange={(e) => setAdds(e.target.value)} placeholder={adds}/>
+                            </Col>
+                        </Row>
+                        <Row className="py-2">
+                            <Col>
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO INSS</Form.Label>
                             </Col>
                             <Col>
@@ -134,7 +162,7 @@ const Exibir = props => {
                                 <Form.Control placeholder={vacation_gross} readOnly/>
                             </Col>
                             <Col>
-                                <Form.Control placeholder="" />
+                                <Form.Control onChange={(e) => setVacationDays(e.target.value)} placeholder={vacation_days} />
                             </Col>
                         </Row>
                         <Row className="py-2">
