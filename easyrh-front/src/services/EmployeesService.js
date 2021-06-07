@@ -34,13 +34,11 @@ class EmployeesService {
             months, 
             adds, 
             vacation_days
-          } 
-        }, 
-        {
-          headers: 
-            {
-              'Authorization': `Bearer ${localStorage.getItem('@TOKEN')}`
-            },
+          } ,           
+            headers: 
+              {
+                'Authorization': `Bearer ${localStorage.getItem('@TOKEN')}`
+              },          
         }
       )
   }

@@ -58,11 +58,15 @@ const Exibir = props => {
 
     const calcular = async e => {
         
-        e.preventDefault()              
-         
+        e.preventDefault()          
+        const today = new Date()
+        const date_hired = new Date(user.hired_at)
+        const m =  (today.getMonth() - date_hired.getMonth())
+        console.log(m)
+        
         try{   
             const params = {
-                gross: user.gross, months: user.hired_at, adds: adds, vacation_days: vacation_days
+                gross: user.gross, months: m, adds: adds, vacation_days: vacation_days
             }
 
             const {data: results} = await employeesService.calculateSalary( params )
