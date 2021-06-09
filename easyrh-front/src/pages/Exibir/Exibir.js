@@ -92,9 +92,10 @@ const Exibir = props => {
             const {data: results} = await employeesService.calculateSalary( params )
             console.log(results)
             
-            setLiquid(results.salary.liquid)
+            setLiquid(results.total.liquid)
+            setGross(results.total.gross)
             setVacationGross(results.vacation.liquid)
-            setAdds(results.salary.taxes.descontos[0])
+            //setAdds(results.salary.taxes.descontos[0])
             setChristmasBonus(results.thirteenth.liquid)
 
             setDeducaoInss(results.salary.taxes.taxas.inss.deduction)
@@ -174,7 +175,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>ADICIONAIS/DESCONTOS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control onChange={(e) => setAdds(e.target.value)} placeholder={adds}/>
+                                <Form.Control onChange={(e) => {setAdds(e.target.value);calcular(e)}} placeholder={adds}/>
                             </Col>
                         </Row>
                         <Row className="py-2">
