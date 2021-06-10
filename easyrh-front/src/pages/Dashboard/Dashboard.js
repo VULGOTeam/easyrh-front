@@ -12,35 +12,12 @@ import { toast } from 'react-toastify';
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
 
 const Dashboard = props => {
-    /*const mock_funcionarios = [
-        {
-          "company_id": "60b7f8010049922066ca6ba9",
-          "name": "Mateus Teste",
-          "data": {},
-          "gross": 3000,
-          "hired_at": "2020-09-08T00:00:00",
-          "created_at": "2021-06-04T06:24:52.573000",
-          "updated_at": "2021-06-04T06:24:52.573000",
-          "deleted_at": null,
-          "id": "60b9f1645fd9cb1c9b361891"
-        },
-        {
-          "company_id": "60b7f8010049922066ca6ba9",
-          "name": "Mateus Tozoni",
-          "data": {},
-          "gross": 3000,
-          "hired_at": "2020-09-08T00:00:00",
-          "created_at": "2021-06-04T06:39:57.044000",
-          "updated_at": "2021-06-04T06:39:57.044000",
-          "deleted_at": null,
-          "id": "60b9f4ed5fd9cb1c9b361892"
-        }
-    ]*/
 
     const employeesService = new EmployeesService()
 
     const [ showResults, setShowResults ] = useState(false)
     const [ showEmployee, setShowEmployee ] = useState(false)
+    const [ employeeId, setEmployeeId ] = useState()
 
     const onClick = () => setShowResults(!showResults)
 
@@ -51,10 +28,7 @@ const Dashboard = props => {
     },[showResults]);
 
     const exibirEmployee = (e, id) => {
-        props.history.push({
-            
-            state: {id: id}
-        })
+        setEmployeeId(id)
         setShowEmployee(!showEmployee)
     }
 
@@ -97,7 +71,7 @@ const Dashboard = props => {
     return(
         <>
         <ModalAdicionar show={showResults} setShow={setShowResults} />
-        <ShowEmployee show={showEmployee} setShow={setShowEmployee} />
+        <ShowEmployee show={showEmployee} setShow={setShowEmployee} employeeId={employeeId} />
         <Container fluid >
             <Row>
                 <Col class="col-12 mt-4 mb-2 pl-5">

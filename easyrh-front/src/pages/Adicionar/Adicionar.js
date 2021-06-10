@@ -16,7 +16,6 @@ const Adicionar = props =>{
     
     const employeesService = new EmployeesService()
 
-    const [show, setShow] = useState(false);
     const [hiredAt, setHiredAt] = useState(Date.now())
     const [gross, setGross] = useState(0)
     const [name, setName] = useState("")
@@ -43,7 +42,7 @@ const Adicionar = props =>{
             })
         }catch (error){
             console.log(error)
-            toast("Erro ao calcular", {
+            toast("Erro ao adicionar", {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -83,7 +82,7 @@ const Adicionar = props =>{
 
                         <Row>
                             <Col>
-                                <Form.Label className="text-center col pt-3">MESES TRAB.</Form.Label>
+                                <Form.Label className="text-center col pt-3">DATA DE ADMISSÃO</Form.Label>
                                 <DatePicker className="form-control text-center w-100" selected={hiredAt} onChange={(date) => setHiredAt(date)} />
                             </Col>
                             <Col>

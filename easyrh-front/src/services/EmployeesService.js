@@ -13,7 +13,7 @@ class EmployeesService {
   addEmployee({ name, gross, hired_at, department, vacations }){
     return api.post('/employees', {
       name,
-      gross,
+      gross: parseFloat(gross),
       hired_at,
       department,
       vacations
