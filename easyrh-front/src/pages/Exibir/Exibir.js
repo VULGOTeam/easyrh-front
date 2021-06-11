@@ -1,9 +1,9 @@
 import React from 'react';
-import  { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import EmployeesService from '../../services/EmployeesService';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Row, Modal, Col} from 'react-bootstrap';
-import { useState, useEffect} from 'react';
+import { Form, Row, Modal, Col } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import './Exibir.css'
 
@@ -37,6 +37,7 @@ const Exibir = props => {
     const [deducao_inss_dt, setDeducaoInssDeducaoDT] = useState(0)
     const [aliquota_irrf_dt, setAliquotaIrrfDT] = useState(0)
     const [aliquota_inss_dt, setAliquotaInssDT] = useState(0)
+    const [results, setResults] = useState(0)
 
     function monthDiff(d1, d2) {
         var months;
@@ -47,10 +48,10 @@ const Exibir = props => {
     }
 
     const loadInfo = async e => {
-        
-        try{   
-            const {data: user} = await employeesService.getEmployee(props.employeeId)
-            
+
+        try {
+            const { data: user } = await employeesService.getEmployee(props.employeeId)
+
             console.log(user)
 
             setUser(user)
@@ -59,15 +60,15 @@ const Exibir = props => {
             console.log(user.gross)
             setName(user.name)
 
-            
+
             const today = new Date()
             const date_hired = new Date(user.hired_at)
             const m = monthDiff(date_hired, today)
             setMonths(m)
             console.log(m)
 
-            
-        }catch (error) {
+
+        } catch (error) {
             toast("Erro ao calcular", {
                 position: "top-right",
                 autoClose: 3000,
@@ -82,30 +83,31 @@ const Exibir = props => {
 
     useEffect(() => {
         calcular()
-    }, [user, vacation_days])
+    }, [user, vacation_days, adds])
 
     const calcular = async e => {
-        if(!user) return
-        
+        if (!user) return
+
         //e.preventDefault()      
-        
+
         const today = new Date()
         const date_hired = new Date(user.hired_at)
         const months = monthDiff(date_hired, today)
-        
+
         console.log(months)
-        try{   
+        try {
             const params = {
-                gross: user.gross, months: months, adds: user.adds, vacation_days: vacation_days
+                gross: user.gross, months: months, adds: adds, vacation_days: vacation_days
             }
 
-            const {data: results} = await employeesService.calculateSalary( params )
+            const { data: results } = await employeesService.calculateSalary(params)
             console.log(results)
-            
+
+
+
             setLiquid(results.salary.liquid)
             setGross(results.salary.gross)
             setVacationGross(results.vacation.liquid)
-            //setAdds(results.salary.taxes.descontos[0])
             setChristmasBonus(results.thirteenth.liquid)
 
             setDeducaoInss(results.salary.taxes.taxas.inss.deduction)
@@ -124,9 +126,9 @@ const Exibir = props => {
             setDeducaoIrrfDeducaoDT(results.thirteenth.taxes.taxas.inss.deduction)
             setAliquotaInssDT(results.thirteenth.taxes.taxas.irrf.aliquot)
             setAliquotaInssDT(results.thirteenth.taxes.taxas.irrf.aliquot)
+            setResults(results)
 
-            
-        }catch (error) {
+        } catch (error) {
             toast("Erro ao calcular", {
                 position: "top-right",
                 autoClose: 3000,
@@ -143,7 +145,7 @@ const Exibir = props => {
             show={props.show}
             onHide={() => { props.setShow(false) }}
             keyboard={false}
-            onChange = {(e) =>  calcular(e)}
+            onChange={(e) => calcular(e)}
             onShow={() => loadInfo()}
         >
             <Modal.Dialog>
@@ -154,7 +156,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2">NOME</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control placeholder={name} readOnly/>
+                                <Form.Control placeholder={name} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -162,23 +164,39 @@ const Exibir = props => {
                                 <Form.Label className="pl-2">SETOR</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control placeholder={department} readOnly/>
+                                <Form.Control placeholder={department} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
                             <Col>
-                                <Form.Label className="pl-2">SALÁRIO BRUTO</Form.Label>
+                                <Form.Label className="pl-2">SALÁRIO BRUTO (Mensal)</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control placeholder={"R$ " + gross.toFixed(2)} readOnly/>
+                                <Form.Control placeholder={"R$ " + gross.toFixed(2)} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
                             <Col>
-                                <Form.Label className="pl-2" readOnly>SALÁRIO LÍQUIDO</Form.Label>
+                                <Form.Label className="pl-2" readOnly>SALÁRIO LÍQUIDO (Mensal)</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control placeholder={"R$ " + liquid.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + liquid.toFixed(2)} readOnly />
+                            </Col>
+                        </Row>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2">TOTAL BRUTO (Período Total)</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder={"R$ " + results?.total?.gross?.toFixed(2) || "0.00"} readOnly />
+                            </Col>
+                        </Row>
+                        <Row className="py-2">
+                            <Col>
+                                <Form.Label className="pl-2" readOnly>TOTAL LÍQUIDO (Período Total)</Form.Label>
+                            </Col>
+                            <Col>
+                                <Form.Control placeholder={"R$ " + results?.total?.liquid?.toFixed(2) || "0.00"} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -186,7 +204,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>ADICIONAIS/DESCONTOS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control onChange={(e) => {setAdds(e.target.value);calcular(e)}} placeholder={adds.toFixed(2)}/>
+                                <Form.Control onChange={(e) => { setAdds(e.target.value) }} placeholder={adds} />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -194,7 +212,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO INSS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + deducao_inss_salario.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + deducao_inss_salario.toFixed(2)} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -202,7 +220,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>ALÍQUOTA INSS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={aliquota_inss_salario + " %"}  readOnly/>
+                                <Form.Control placeholder={aliquota_inss_salario + " %"} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -210,27 +228,27 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO IRRF</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + deducao_irrf_salario.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + deducao_irrf_salario.toFixed(2)} readOnly />
                             </Col>
-                        </Row>                       
+                        </Row>
                         <Row className="py-2">
                             <Col>
                                 <Form.Label className="pl-2" readOnly>ALÍQUOTA IRRF</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={aliquota_irrf_salario + " %"}  readOnly/>
+                                <Form.Control placeholder={aliquota_irrf_salario + " %"} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
                             <Col>
                                 <Form.Label className="pl-2">FÉRIAS (DIAS)</Form.Label>
                             </Col>
-                            
+
                             <Col>
-                                <Form.Control placeholder={"R$ " + vacation_gross.toFixed(2)} readOnly/>
+                                <Form.Control placeholder={"R$ " + vacation_gross.toFixed(2)} readOnly />
                             </Col>
                             <Col>
-                                <Form.Control onChange={(e) => {setVacationDays(e.target.value)}} placeholder={vacation_days} />
+                                <Form.Control onChange={(e) => { setVacationDays(e.target.value) }} placeholder={vacation_days} />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -238,7 +256,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO INSS FÉRIAS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + deducao_inss_ferias.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + deducao_inss_ferias.toFixed(2)} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -246,7 +264,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>ALÍQUOTA INSS FÉRIAS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"" + aliquota_inss_ferias + " %"}  readOnly/>
+                                <Form.Control placeholder={"" + aliquota_inss_ferias + " %"} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -254,15 +272,15 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO IRRF FÉRIAS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + deducao_irrf_ferias.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + deducao_irrf_ferias.toFixed(2)} readOnly />
                             </Col>
-                        </Row>                       
+                        </Row>
                         <Row className="py-2">
                             <Col>
                                 <Form.Label className="pl-2" readOnly>ALÍQUOTA IRRF FÉRIAS</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={aliquota_irrf_ferias + " %"}  readOnly/>
+                                <Form.Control placeholder={aliquota_irrf_ferias + " %"} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -270,7 +288,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2">DÉCIMO TERCEIRO</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + christmas_bonus.toFixed(2)} readOnly/>
+                                <Form.Control placeholder={"R$ " + christmas_bonus.toFixed(2)} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -278,7 +296,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO INSS 13º</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + deducao_inss_dt.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + deducao_inss_dt.toFixed(2)} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -286,7 +304,7 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>ALÍQUOTA INSS 13º</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={aliquota_inss_dt + " %"}  readOnly/>
+                                <Form.Control placeholder={aliquota_inss_dt + " %"} readOnly />
                             </Col>
                         </Row>
                         <Row className="py-2">
@@ -294,19 +312,19 @@ const Exibir = props => {
                                 <Form.Label className="pl-2" readOnly>DEDUÇÃO IRRF 13º</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={"R$ " + deducao_irrf_dt.toFixed(2)}  readOnly/>
+                                <Form.Control placeholder={"R$ " + deducao_irrf_dt.toFixed(2)} readOnly />
                             </Col>
-                        </Row>                       
+                        </Row>
                         <Row className="py-2">
                             <Col>
                                 <Form.Label className="pl-2" readOnly>ALÍQUOTA IRRF 13º</Form.Label>
                             </Col>
                             <Col>
-                                <Form.Control  placeholder={aliquota_irrf_dt + " %"}  readOnly/>
+                                <Form.Control placeholder={aliquota_irrf_dt + " %"} readOnly />
                             </Col>
                         </Row>
-                       
-                        <Row></Row>            
+
+                        <Row></Row>
                     </Form>
                 </Modal.Body>
             </Modal.Dialog>
